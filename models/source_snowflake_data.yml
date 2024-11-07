@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: snowflake_database
+    database: dbt_db
+    schema: dbt_schema
+    tables:
+      - name: dbt_yellow_taxi
+        columns:
+          - name: DBT_YELLOW_ID
+            tests:
+              - unique
+              - not_null
+      - name: dbt_green_taxi_data
+        columns:
+          - name: dbt_green_taxi_id
+            tests:
+              - unique
+              - not_nullS
+      - name: dbt_lookup_table
+        columns:
+          - name: locationid
+            tests:
+              - unique
+              - not_nulls

@@ -1,0 +1,12 @@
+snowflake_project:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: wv46703.eu-west-3.aws
+      user: ubiowororukevwe
+      password: Comfort12345@
+      role: Accountadmin
+      database: dbt_db
+      warehouse: dbt_wh
+      schema: dbt_schema

@@ -1,0 +1,78 @@
+models:
+  - name: greentaxi_fact_table
+    columns:
+      - name: green_taxi_id
+        tests:
+          - unique
+          - not_null
+        severity: warn
+
+      - name: DOLOCATIONID
+        tests:
+          - not_null
+
+      - name: PULOCATIONID
+        tests:
+          - not_null
+
+      - name: VENDORID
+        tests:
+          - not_null
+
+      - name: total_orders
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+      - name: total_store_and_fwd_flag
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['1','0']
+
+      - name: payment_type
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['creditcard', 'cash', 'no charge', 'dispute', 'unknown']
+
+      - name: latest_dropoff_datetime
+        tests:
+          - not_null
+         
+
+      - name: latest_pickup_datetime
+        tests:
+          - not_null
+          - not_negative
+
+      - name: total_tip_amount
+        tests:
+          - custom_test:
+              name: greater_than_zero
+              sql: |
+                SELECT *
+                FROM {{ ref('greentaxi_fact_table') }}
+                WHERE  total_tip_amount <= 0
+           
+                
+      - name: total_trip_amount
+        tests:
+          - custom_test:
+              name: greater_than_zero
+              sql: |
+                SELECT *
+                FROM {{ ref('greentaxi_fact_table') }}
+                WHERE  total_trip_amount <= 0
+          
+          - not_null
+
+      - name:  total_total_amount
+        tests:
+          - custom_test:
+              name: greater_than_zero
+              sql: |
+                SELECT *
+                FROM {{ ref('greentaxi_fact_table') }}
+                WHERE  TOTAL_AMOUNT <= 0
